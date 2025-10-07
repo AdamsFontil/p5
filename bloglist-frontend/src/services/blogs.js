@@ -13,4 +13,17 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-export default { getAll, setToken }
+const create = async newObject => {
+    const config = {
+    headers: { Authorization: token }
+  }
+
+  console.log('object received by service', newObject);
+
+  const response = await axios.post(baseUrl, newObject, config)
+  console.log('Servicewhat is config', config);
+  console.log('Servicewhat is the reponse---', response.data);
+  return response.data
+}
+
+export default { getAll, setToken, create }
