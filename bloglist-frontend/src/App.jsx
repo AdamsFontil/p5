@@ -131,7 +131,7 @@ const notificationComp = () => (
       <h2>blogs</h2>
       {notification && notificationComp()}
       <p> {user.name} is logged in <button onClick={handleLogout}>logout</button></p>
-      <Togglable buttonLabel="create new blog" >
+      <Togglable buttonLabelShow="create new blog" buttonLabelCancel="cancel" >
       <CreateBlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
