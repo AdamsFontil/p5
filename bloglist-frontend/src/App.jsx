@@ -11,6 +11,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [title, setTitle] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -38,12 +39,20 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      console.log('here is user', user);
-    } catch {
-      console.log('wrong credentials', )
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
+      console.log('login success', user);
+      setNotification({message: `Login succeeded ${user.username} is in`,})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+
+    } catch(error) {
+      console.log('login failed', error);
+      console.log('login failed', error.response.data.error);
+      console.log('login failed', typeof(error.response.data.error));
+      setNotification({message: error.response.data.error, error: true})
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
@@ -70,20 +79,40 @@ const App = () => {
   try {
     const createdBlog = await blogService.create(newBlog);
     console.log('Created blog:', createdBlog);
+    setNotification({message:`a new blog ${createdBlog.title} by ${createdBlog.author} added`, })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   } catch (error) {
     console.error('Error creating blog:', error);
+    setNotification({message: error, error:true})
+        setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   setAuthor('');
   setUrl('');
   setTitle('');
 };
+const notificationComp = () => (
+  notification.error ? (
+    <div className='error'>
+      {notification.message}
+    </div>
+  ) : (
+    <div className='note'>
+      {notification.message}
+    </div>
+  )
+);
 
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
+        {notification && notificationComp()}
         <form onSubmit={handleLogin}>
           <div>
             <label>
@@ -108,9 +137,12 @@ const App = () => {
     )
   }
 
+
+
   return (
     <div>
       <h2>blogs</h2>
+      {notification && notificationComp()}
       <p> {user.name} is logged in <button onClick={handleLogout}>logout</button></p>
       <form onSubmit={handleCreate}>
         <div>
