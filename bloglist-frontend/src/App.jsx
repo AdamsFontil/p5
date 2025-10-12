@@ -17,6 +17,7 @@ const App = () => {
       setBlogs( blogs )
     )
   }, [])
+
     useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
@@ -54,6 +55,34 @@ const App = () => {
       }, 5000)
     }
   }
+
+const likeBlog = async (blogToUpdate) => {
+  const updatedBlog = {
+    ...blogToUpdate,
+    likes: blogToUpdate.likes + 1,
+    user: blogToUpdate.user?.id
+  }
+
+  console.log(updatedBlog);
+
+  try {
+    const returnedBlog = await blogService.update(blogToUpdate.id, updatedBlog)
+
+    const updatedBlogs = blogs.map(blog => {
+      return blog.id === returnedBlog.id ? returnedBlog : blog
+    })
+
+    setBlogs(updatedBlogs)
+    console.log('what is updatedBlogs', updatedBlogs);
+    setNotification({ message: `You liked '${returnedBlog.title}'` })
+    setTimeout(() => setNotification(null), 5000)
+  } catch (error) {
+    console.error('Failed to like blog:', error)
+    setNotification({ message: 'Failed to like blog', error: true })
+    setTimeout(() => setNotification(null), 5000)
+  }
+}
+
 
   const handleLogout = async event => {
     console.log('logging out', user);
@@ -93,6 +122,8 @@ const notificationComp = () => (
     </div>
   )
 );
+
+
 
 
   if (user === null) {
@@ -135,7 +166,7 @@ const notificationComp = () => (
       <CreateBlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLike={likeBlog}  />
       )}
     </div>
   )
