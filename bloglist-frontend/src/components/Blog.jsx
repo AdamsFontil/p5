@@ -1,5 +1,5 @@
-import Togglable from "./Togglable"
-import { useState } from "react"
+import Togglable from './Togglable'
+import { useState } from 'react'
 
 const Blog = ({ blog, handleLike, user, handleRemove }) => {
   const [visible, setVisible] = useState(false)
@@ -13,7 +13,7 @@ const Blog = ({ blog, handleLike, user, handleRemove }) => {
   }
   // console.log('blog info i need user as well', blog);
   // console.log('who is user', user);
- const canDelete = user?.username === blog?.user?.username;
+  const canDelete = user?.username === blog?.user?.username
 
 
 
@@ -23,18 +23,18 @@ const Blog = ({ blog, handleLike, user, handleRemove }) => {
       <div>
         {blog.title} {blog.author}
         <button onClick={() => setVisible(!visible)}>
-        {visible ? 'hide' : 'view'}
-      </button>
-      { visible && (
-        <div>
-          <div>{blog.url}</div>
-          <div>likes {blog.likes} <button onClick={ () => handleLike(blog)}>like</button></div>
-          <div>{blog?.user?.name}</div>
-          { canDelete && (
-            <div><button onClick={ () => handleRemove(blog)}>remove</button></div>
-          )}
-        </div>
-      )}
+          {visible ? 'hide' : 'view'}
+        </button>
+        { visible && (
+          <div>
+            <div>{blog.url}</div>
+            <div>likes {blog.likes} <button onClick={ () => handleLike(blog)}>like</button></div>
+            <div>{blog?.user?.name}</div>
+            { canDelete && (
+              <div><button onClick={ () => handleRemove(blog)}>remove</button></div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

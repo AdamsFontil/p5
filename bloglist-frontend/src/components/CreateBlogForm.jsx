@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const CreateBlogForm = ({ createBlog }) => {
   const [author, setAuthor] = useState('')
@@ -6,48 +6,48 @@ const CreateBlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
 
   const handleCreate = (event) => {
-  event.preventDefault();
-  console.log('creating new blog');
-  console.log('values are', author, url, title);
+    event.preventDefault()
+    console.log('creating new blog')
+    console.log('values are', author, url, title)
 
-  createBlog({
-    title: title,
-    author: author,
-    url: url
-  })
-  setAuthor('');
-  setUrl('');
-  setTitle('');
+    createBlog({
+      title: title,
+      author: author,
+      url: url
+    })
+    setAuthor('')
+    setUrl('')
+    setTitle('')
   }
 
   return (
     <form onSubmit={handleCreate}>
-        <div>
-          <label>
+      <div>
+        <label>
             title
-            <input type="text"
-              value={title}
-              onChange={({ target }) => setTitle(target.value)} />
-          </label>
-        </div>
-        <div>
-          <label>
+          <input type="text"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)} />
+        </label>
+      </div>
+      <div>
+        <label>
             author
-            <input type="text"
-              value={author}
-              onChange={({ target }) => setAuthor(target.value)} />
-          </label>
-        </div>
-        <div>
-          <label>
+          <input type="text"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)} />
+        </label>
+      </div>
+      <div>
+        <label>
             url
-            <input type="text"
-              value={url}
-              onChange={({ target }) => setUrl(target.value)} />
-          </label>
-        </div>
-        <button type="submit">create</button>
-      </form>
+          <input type="text"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)} />
+        </label>
+      </div>
+      <button type="submit">create</button>
+    </form>
   )
 }
 

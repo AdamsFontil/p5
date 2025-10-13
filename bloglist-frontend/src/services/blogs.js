@@ -14,30 +14,30 @@ const getAll = () => {
 }
 
 const create = async newObject => {
-    const config = {
+  const config = {
     headers: { Authorization: token }
   }
 
-  console.log('object received by service', newObject);
+  console.log('object received by service', newObject)
 
   const response = await axios.post(baseUrl, newObject, config)
-  console.log('Servicewhat is config', config);
-  console.log('Servicewhat is the reponse---', response.data);
+  console.log('Servicewhat is config', config)
+  console.log('Servicewhat is the reponse---', response.data)
   return response.data
 }
 
 const update = (id, newObject) => {
-  console.log('what is newObject', newObject);
+  console.log('what is newObject', newObject)
   const request = axios.put(`${baseUrl}/${id}`, newObject)
   return request.then((response) => response.data)
 }
 
 const remove = async id => {
-      const config = {
+  const config = {
     headers: { Authorization: token }
   }
   const response = await axios.delete(`${baseUrl}/${id}`,config)
-  console.log('what is request,,,', response);
+  console.log('what is request,,,', response)
   return response.data
 }
 
