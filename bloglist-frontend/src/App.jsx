@@ -83,6 +83,20 @@ const likeBlog = async (blogToUpdate) => {
   }
 }
 
+const handleRemove = async blog => {
+  if (!window.confirm(`Are you sure you want to remove "${blog.title}" by ${blog.author}?`)) {
+    return;
+  }
+  try {
+    const removeBlog = await blogService.remove(blog.id)
+    console.log('Blog removed:', removeBlog);
+    const removeBlogFromUI = blogs.filter(b => b.id !== blog.id)
+    setBlogs(removeBlogFromUI)
+  } catch (error) {
+    console.error('Something went wrong', error);
+  }
+}
+
 
   const handleLogout = async event => {
     console.log('logging out', user);
@@ -165,9 +179,12 @@ const notificationComp = () => (
       <Togglable buttonLabelShow="create new blog" buttonLabelCancel="cancel" >
       <CreateBlogForm createBlog={addBlog} />
       </Togglable>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={likeBlog}  />
-      )}
+{blogs
+  .sort((a, b) => b.likes - a.likes)
+  .map(blog => (
+    <Blog key={blog.id} blog={blog} handleLike={likeBlog} user={user} handleRemove={handleRemove} />
+  ))}
+
     </div>
   )
 }

@@ -1,6 +1,9 @@
 import Togglable from "./Togglable"
+import { useState } from "react"
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, user, handleRemove }) => {
+  const [visible, setVisible] = useState(false)
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -8,32 +11,30 @@ const Blog = ({ blog, handleLike }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  // console.log('blog---', blog);
+  // console.log('blog info i need user as well', blog);
+  // console.log('who is user', user);
+ const canDelete = user?.username === blog?.user?.username;
 
-  // const handleLike =  async event => {
-  //   event.preventDefault()
-  //   console.log('liking this object', blog);
-  //   const updatedBlog = ({
-  //     ...blog,
-  //     likes: blog.likes + 1,
-  //     user: blog.user.id
-  //   })
 
-  //   console.log('new Blog', updatedBlog.id, updatedBlog);
-  //   console.log('changed');
-
-  // }
 
 
   return (
     <div style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <Togglable buttonLabelShow="view" buttonLabelCancel="hide">
+        <button onClick={() => setVisible(!visible)}>
+        {visible ? 'hide' : 'view'}
+      </button>
+      { visible && (
+        <div>
           <div>{blog.url}</div>
           <div>likes {blog.likes} <button onClick={ () => handleLike(blog)}>like</button></div>
           <div>{blog?.user?.name}</div>
-        </Togglable>
+          { canDelete && (
+            <div><button onClick={ () => handleRemove(blog)}>remove</button></div>
+          )}
+        </div>
+      )}
       </div>
     </div>
   )
