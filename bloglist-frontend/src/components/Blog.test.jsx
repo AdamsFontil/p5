@@ -56,5 +56,23 @@ test('clicking on view reveals url and likes', async () => {
   screen.debug(div)
   expect(div).toBeDefined()
 
+})
+
+
+test.only('clicking like twice change mock.calls length', async () => {
+  const mockHandler = vi.fn()
+  render(<Blog blog={blog} handleLike={mockHandler} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('view')
+  await user.click(button)
+
+  const likeBtn = screen.getByText('like')
+  await user.click(likeBtn)
+  await user.click(likeBtn)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+  screen.debug()
+  console.log('Mock calls:', mockHandler.mock.calls)
 
 })
