@@ -59,7 +59,7 @@ test('clicking on view reveals url and likes', async () => {
 })
 
 
-test.only('clicking like twice change mock.calls length', async () => {
+test('clicking like twice change mock.calls length', async () => {
   const mockHandler = vi.fn()
   render(<Blog blog={blog} handleLike={mockHandler} />)
 

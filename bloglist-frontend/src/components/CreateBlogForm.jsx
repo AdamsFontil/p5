@@ -21,7 +21,7 @@ const CreateBlogForm = ({ createBlog }) => {
   }
 
   return (
-    <form onSubmit={handleCreate}>
+    <form onSubmit={handleCreate}   style={{ border: '2px solid blue', padding: '10px' }}>
       <div>
         <label>
             title
