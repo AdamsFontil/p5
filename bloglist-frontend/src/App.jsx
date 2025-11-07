@@ -101,7 +101,7 @@ const App = () => {
   const handleLogout = async event => {
     console.log('logging out', user)
     event.preventDefault()
-    window.localStorage.removeItem('loggedBlogUser', JSON.stringify(user))
+    window.localStorage.removeItem('loggedBlogUser')
     blogService.setToken(null)
     setUser(null)
     console.log('logged out complete')
@@ -111,6 +111,7 @@ const App = () => {
     console.log('blogObject received', blogObject)
     try {
       const createdBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(createdBlog))
       console.log('Created blog: from the app', createdBlog)
       setNotification({ message:`a new blog ${createdBlog.title} by ${createdBlog.author} added`, })
       setTimeout(() => {
