@@ -23,7 +23,7 @@ describe('Blog app', () => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible()
   })
   describe('Login', () => {
-    test.only('succeeds with correct credentials', async ({ page }) => {
+    test('succeeds with correct credentials', async ({ page }) => {
       loginWith(page, 'tHellas', '1235')
       await expect(page.getByText('Hellas Testing is logged in')).toBeVisible()
       await expect(page.getByText('Login succeeded tHellas is in')).toBeVisible()
@@ -31,21 +31,29 @@ describe('Blog app', () => {
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-      loginWith(page, 'tHellas', 'wrong')
+      await loginWith(page, 'tHellas', 'wrong')
 
       await expect(page.getByText('Hellas Testing is logged in')).not.toBeVisible()
       await expect(page.getByText('Login succeeded tHellas is in')).not.toBeVisible()
       await expect(page.getByText('invalid username or password')).toBeVisible()
     })
   })
-  describe('When logged in', () => {
+  describe.only('When logged in', () => {
     beforeEach(async ({ page }) => {
-      loginWith(page, 'tHellas', '1235')
+      await loginWith(page, 'tHellas', '1235')
     })
 
     test('a new blog can be created', async ({ page }) => {
-      createBlog(page, 'testing new blog', 'tHellas', 'playwright.dev')
+      await createBlog(page, 'testing new blog', 'tHellas', 'playwright.dev')
       await expect (page.getByText('testing new blog tHellas')).toBeVisible()
+    })
+    test('blogs can be liked', async ({page}) => {
+      await createBlog(page, 'testing likes', 'tHellas', 'playwright.dev')
+      await page.getByRole('button', {name: 'view'}).click()
+      // const previousLikes = page.getByText('likes')
+      await page.getByRole('button', {name: 'like'}).click()
+      await page.getByRole('button', {name: 'like'}).click()
+      // console.log('prev likes', previousLikes)
     })
   })
 })
